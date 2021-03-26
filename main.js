@@ -42,12 +42,10 @@ const data = {
 
 let newData = null;
 
-async function getData() {
-    const response = await axios.get('http://www.mrsoft.by/data.json');
-    return response
-}
-getData()
 
+  axios.get('http://www.mrsoft.by/data.json').then(res => {
+    data = res.data; // Результат ответа от сервера
+});
 //--------------------переменные
 
 const inputText = document.querySelector('.inputText');
@@ -60,7 +58,7 @@ const buttonLength = () => {
     let localState = inputText.value;
     let localNumber = parseInt(localState);
     newData = data.data.filter(item => item.length > localNumber);
-    outputData.innerHTML = newData.join(", ")
+    outputData.innerHTML = newData.join(", ");
 }
 
 //---------------------по подстроке с учетом/без учета регистра
@@ -70,13 +68,12 @@ const buttonString = () => {
     let localState = inputText.value;
     if (chekText.checked === true) {
         newData = data.data.filter(item => item.indexOf(localState) !== -1);
-    } if (chekText.checked === false) {
-        let lowerData = data.data.map(item => item.toLowerCase())
-        debugger
+    }
+    if (chekText.checked === false) {
+        let lowerData = data.data.map(item => item.toLowerCase());
         let newLocalState = localState.toLowerCase();
         newData = lowerData.filter(item => item.indexOf(newLocalState) !== -1);
 
     }
     outputData.innerHTML = newData.join(", ")
 }
-
